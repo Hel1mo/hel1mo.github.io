@@ -1,158 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Material 3 Website</title>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Helimo's Arcade</title>
 
-  <!-- Roboto Flex -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,slnt,wdth,wght,GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC@8..144,-1,101,401,1,401,117,751,-249,601,501,726&display=swap" rel="stylesheet">
+    <!-- Roboto Flex -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,slnt,wdth,wght,GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC@8..144,-1,101,401,1,401,117,751,-249,601,501,726&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Import maps -->
-  <script type="importmap">
-    {
-      "imports": {
-        "@material/web/": "https://esm.run/@material/web/"
+    <!-- Import maps -->
+    <script type="importmap">
+      { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
+    </script>
+
+    <!-- Material Web -->
+    <script type="module">
+      import '@material/web/all.js';
+      import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+      document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+
+    <!-- LIGHT + DARK THEMES -->
+    <style>
+      /* ---------- LIGHT THEME ---------- */
+      :root {
+        --md-sys-color-primary: rgb(109 94 15);
+        --md-sys-color-on-primary: rgb(255 255 255);
+        --md-sys-color-primary-container: rgb(248 226 135);
+        --md-sys-color-on-primary-container: rgb(34 27 0);
+        --md-sys-color-secondary: rgb(104 95 64);
+        --md-sys-color-on-secondary: rgb(255 255 255);
+        --md-sys-color-secondary-container: rgb(238 226 188);
+        --md-sys-color-on-secondary-container: rgb(33 27 4);
+        --md-sys-color-tertiary: rgb(68 104 79);
+        --md-sys-color-on-tertiary: rgb(255 255 255);
+        --md-sys-color-tertiary-container: rgb(197 236 206);
+        --md-sys-color-on-tertiary-container: rgb(0 33 15);
+        --md-sys-color-background: rgb(255 251 240);
+        --md-sys-color-on-background: rgb(30 28 20);
+        --md-sys-color-surface: rgb(255 251 240);
+        --md-sys-color-on-surface: rgb(30 28 20);
+        --md-sys-color-surface-container: rgb(245 241 230);
+        --md-sys-color-outline: rgb(125 118 99);
       }
-    }
-  </script>
 
-  <!-- Material Web -->
-  <script type="module">
-    import '@material/web/all.js';
-    import { styles as typescaleStyles }
-      from '@material/web/typography/md-typescale-styles.js';
-    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-  </script>
+      /* ---------- DARK THEME ---------- */
+      .dark {
+        --md-sys-color-primary: rgb(219 198 110);
+        --md-sys-color-on-primary: rgb(58 48 0);
+        --md-sys-color-primary-container: rgb(83 70 0);
+        --md-sys-color-on-primary-container: rgb(248 226 135);
+        --md-sys-color-secondary: rgb(209 198 161);
+        --md-sys-color-on-secondary: rgb(54 48 22);
+        --md-sys-color-secondary-container: rgb(78 71 42);
+        --md-sys-color-on-secondary-container: rgb(238 226 188);
+        --md-sys-color-tertiary: rgb(169 208 179);
+        --md-sys-color-on-tertiary: rgb(20 55 35);
+        --md-sys-color-tertiary-container: rgb(44 78 56);
+        --md-sys-color-on-tertiary-container: rgb(197 236 206);
+        --md-sys-color-background: rgb(21 19 11);
+        --md-sys-color-on-background: rgb(232 226 212);
+        --md-sys-color-surface: rgb(21 19 11);
+        --md-sys-color-on-surface: rgb(232 226 212);
+        --md-sys-color-surface-container: rgb(34 32 23);
+        --md-sys-color-outline: rgb(150 144 128);
+      }
 
-  <!-- LIGHT + DARK THEMES -->
-  <style>
-    :root {
-      --md-sys-color-primary: rgb(109 94 15);
-      --md-sys-color-on-primary: rgb(255 255 255);
-      --md-sys-color-primary-container: rgb(248 226 135);
-      --md-sys-color-on-primary-container: rgb(34 27 0);
-      --md-sys-color-background: rgb(255 251 240);
-      --md-sys-color-on-background: rgb(30 28 20);
-      --md-ref-typeface-brand: 'Roboto Flex';
-      --md-ref-typeface-plain: 'Roboto Flex';
-    }
+      /* ---------- LAYOUT ---------- */
+      body {
+        margin: 0;
+        font-family: Roboto, system-ui, sans-serif;
+        background: var(--md-sys-color-background);
+        color: var(--md-sys-color-on-background);
+      }
 
-    .dark {
-      --md-sys-color-primary: rgb(219 198 110);
-      --md-sys-color-on-primary: rgb(58 48 0);
-      --md-sys-color-primary-container: rgb(83 70 0);
-      --md-sys-color-on-primary-container: rgb(248 226 135);
-      --md-sys-color-background: rgb(21 19 11);
-      --md-sys-color-on-background: rgb(232 226 212);
-    }
+      header {
+        padding: 16px 24px;
+        background: var(--md-sys-color-surface-container);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
 
-    body {
-      margin: 0;
-      font-family: 'Roboto Flex', system-ui, sans-serif;
-      background: var(--md-sys-color-background);
-      color: var(--md-sys-color-on-background);
-    }
+      main {
+        display: grid;
+        gap: 24px;
+        padding: 24px;
+      }
 
-    header {
-      padding: 16px 24px;
-      background: var(--md-sys-color-surface-container, #fff3);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+      nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
 
-    main {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
+      section {
+        display: grid;
+        gap: 16px;
+      }
 
-    section {
-      display: grid;
-      gap: 16px;
-      padding: 24px;
-    }
+      md-elevated-card {
+        padding: 16px;
+        border-radius: 24px;
+      }
 
-    md-elevated-card {
-      padding: 16px;
-      border-radius: 24px;
-    }
+      :root {
+        --md-ref-typeface-brand: 'Roboto Flex';
+        --md-ref-typeface-plain: 'Roboto Flex';
+      }
 
-    /* Hero Section */
-    .hero {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1650&q=80') center/cover no-repeat;
-      color: white;
-    }
+      /* ---------- VIDEO HEADER ---------- */
+      .video-wrapper {
+        position: relative;
+        width: 100%;
+        height: 86vh;
+        border-radius: 50px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-    .hero h1 {
-      font-size: 80px;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
-      font-variation-settings: "slnt" -10, "wght" 500, "wdth" 155, "GRAD" -50;
-    }
-  </style>
-</head>
+      .bg-video-iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
 
-<body>
-  <!-- HEADER -->
-  <header>
-    <h1 class="md-typescale-title-large">Material App</h1>
-    <md-filled-tonal-button id="themeToggle">Toggle dark mode</md-filled-tonal-button>
-  </header>
+      .nma-flexyfont {
+        position: relative;
+        z-index: 1;
+        font-family: "Roboto Flex";
+        font-size: 100px;
+        text-align: center;
+        --font-slant: -10;
+        --font-weight: 5000;
+        --font-width: 155;
+        --font-grade: -50;
+        /* Restore font-variation-settings */
+        font-variation-settings: 
+          "slnt" var(--font-slant),
+          "wght" var(--font-weight),
+          "wdth" var(--font-width),
+          "GRAD" var(--font-grade);
+        color: #ffffff;
+        text-shadow: 2px 2px 80px rgba(0, 0, 0, 0.6);
+      }
+    </style>
+  </head>
 
-  <!-- HERO SECTION -->
-  <div class="hero">
-    <h1>Overview</h1>
-  </div>
+  <body>
+    <!-- HEADER -->
+    <header>
+      <h1 class="md-typescale-title-large">Helimo's Arcade</h1>
+      <md-filled-tonal-button id="themeToggle">Toggle dark mode</md-filled-tonal-button>
+    </header>
 
-  <!-- MAIN CONTENT -->
-  <main>
-    <section>
-      <md-elevated-card>
-        <h2 class="md-typescale-title-medium">Profile</h2>
-        <md-outlined-text-field label="Name"></md-outlined-text-field>
-        <md-outlined-text-field label="Email"></md-outlined-text-field>
-      </md-elevated-card>
+    <!-- MAIN -->
+    <main>
+      <section>
+        <md-elevated-card>
+          <div class="video-wrapper">
+            <video width="320" height="240" autoplay>
+  <source src="Timeline.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+            <h2 class="nma-flexyfont">Helimo's Arcade</h2>
+          </div>
+          <br style="line-height:100px;" />
+          <p class="md-typescale-body-medium">
+            This is a fake website used to test a full Material 3 theme.
+          </p>
+          <md-filled-button>Primary action</md-filled-button>
+        </md-elevated-card>
 
-      <md-elevated-card>
-        <h2 class="md-typescale-title-medium">Preferences</h2>
-        <md-checkbox>Enable notifications</md-checkbox>
-        <md-radio name="r1" label="Option 1"></md-radio>
-        <md-radio name="r1" label="Option 2"></md-radio>
-      </md-elevated-card>
+        <md-elevated-card>
+          <h2 class="md-typescale-title-medium">Profile</h2>
+          <md-outlined-text-field label="Name"></md-outlined-text-field>
+          <md-outlined-text-field label="Email"></md-outlined-text-field>
+        </md-elevated-card>
 
-      <md-elevated-card>
-        <h2 class="md-typescale-title-medium">Statistics</h2>
-        <p>Some statistics content goes here to fill space.</p>
-      </md-elevated-card>
+        <md-elevated-card>
+          <h2 class="md-typescale-title-medium">Preferences</h2>
+          <md-checkbox>Enable notifications</md-checkbox>
+          <md-radio name="r"></md-radio>
+          <md-radio name="r"></md-radio>
+        </md-elevated-card>
+      </section>
+    </main>
 
-      <md-elevated-card>
-        <h2 class="md-typescale-title-medium">Updates</h2>
-        <p>Latest updates content to make the page scrollable.</p>
-      </md-elevated-card>
-
-      <md-elevated-card>
-        <h2 class="md-typescale-title-medium">Contact</h2>
-        <p>Contact info or extra text to make this long enough to scroll.</p>
-      </md-elevated-card>
-    </section>
-  </main>
-
-  <!-- DARK MODE TOGGLE -->
-  <script type="module">
-    const root = document.documentElement;
-    const btn = document.getElementById('themeToggle');
-    btn.addEventListener('click', () => root.classList.toggle('dark'));
-  </script>
-</body>
+    <!-- DARK MODE TOGGLE -->
+    <script type="module">
+      const root = document.documentElement;
+      const btn = document.getElementById('themeToggle');
+      btn.addEventListener('click', () => {
+        root.classList.toggle('dark');
+      });
+    </script>
+  </body>
 </html>
