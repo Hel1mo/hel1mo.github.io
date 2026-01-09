@@ -1,213 +1,353 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Helimo's Arcade</title>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Helimo's Arcade</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet" />
 
-    <!-- Roboto Flex -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,slnt,wdth,wght,GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC@8..144,-1,101,401,1,401,117,751,-249,601,501,726&display=swap"
-      rel="stylesheet"
-    />
 
-    <!-- Import maps -->
-    <script type="importmap">
-      { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
-    </script>
+  <style>
+    ::selection { text-shadow: 0 0 10px currentColor; }
+    
+    :root {
+      --bg: #0b0b0e;
+      --panel: #14141a;
+      --accent: #4da3ff;
+      --accent-2: #6cffb3;
+      --text: #eaeaf0;
+      --muted: #9aa0b3;
+    }
 
-    <!-- Material Web -->
-    <script type="module">
-      import '@material/web/all.js';
-      import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
-      document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-    </script>
+    * { box-sizing: border-box; }
 
-    <!-- LIGHT + DARK THEMES -->
-    <style>
-      /* ---------- LIGHT THEME ---------- */
-      :root {
-        --md-sys-color-primary: rgb(109 94 15);
-        --md-sys-color-on-primary: rgb(255 255 255);
-        --md-sys-color-primary-container: rgb(248 226 135);
-        --md-sys-color-on-primary-container: rgb(34 27 0);
-        --md-sys-color-secondary: rgb(104 95 64);
-        --md-sys-color-on-secondary: rgb(255 255 255);
-        --md-sys-color-secondary-container: rgb(238 226 188);
-        --md-sys-color-on-secondary-container: rgb(33 27 4);
-        --md-sys-color-tertiary: rgb(68 104 79);
-        --md-sys-color-on-tertiary: rgb(255 255 255);
-        --md-sys-color-tertiary-container: rgb(197 236 206);
-        --md-sys-color-on-tertiary-container: rgb(0 33 15);
-        --md-sys-color-background: rgb(255 251 240);
-        --md-sys-color-on-background: rgb(30 28 20);
-        --md-sys-color-surface: rgb(255 251 240);
-        --md-sys-color-on-surface: rgb(30 28 20);
-        --md-sys-color-surface-container: rgb(245 241 230);
-        --md-sys-color-outline: rgb(125 118 99);
-      }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top, #1a1a25, transparent 60%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-      /* ---------- DARK THEME ---------- */
-      .dark {
-        --md-sys-color-primary: rgb(219 198 110);
-        --md-sys-color-on-primary: rgb(58 48 0);
-        --md-sys-color-primary-container: rgb(83 70 0);
-        --md-sys-color-on-primary-container: rgb(248 226 135);
-        --md-sys-color-secondary: rgb(209 198 161);
-        --md-sys-color-on-secondary: rgb(54 48 22);
-        --md-sys-color-secondary-container: rgb(78 71 42);
-        --md-sys-color-on-secondary-container: rgb(238 226 188);
-        --md-sys-color-tertiary: rgb(169 208 179);
-        --md-sys-color-on-tertiary: rgb(20 55 35);
-        --md-sys-color-tertiary-container: rgb(44 78 56);
-        --md-sys-color-on-tertiary-container: rgb(197 236 206);
-        --md-sys-color-background: rgb(21 19 11);
-        --md-sys-color-on-background: rgb(232 226 212);
-        --md-sys-color-surface: rgb(21 19 11);
-        --md-sys-color-on-surface: rgb(232 226 212);
-        --md-sys-color-surface-container: rgb(34 32 23);
-        --md-sys-color-outline: rgb(150 144 128);
-      }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(10,10,15,0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #222;
+    }
 
-      /* ---------- LAYOUT ---------- */
-      body {
-        margin: 0;
-        font-family: Roboto, system-ui, sans-serif;
-        background: var(--md-sys-color-background);
-        color: var(--md-sys-color-on-background);
-      }
+    nav {
+      max-width: 1200px;
+      margin: auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-      header {
-        padding: 16px 24px;
-        background: var(--md-sys-color-surface-container);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-      }
+    nav strong {
+      font-size: 1.2rem;
+      letter-spacing: 0.5px;
+    }
 
-      main {
-        display: grid;
-        gap: 24px;
-        padding: 24px;
-      }
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin-left: 16px;
+      opacity: 0.85;
+    }
 
-      nav {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
+    nav a:hover {
+      opacity: 1;
+      color: var(--accent);
+    }
 
-      section {
-        display: grid;
-        gap: 16px;
-      }
+    .hero {
+      padding: 96px 24px 72px;
+      text-align: center;
+      max-width: 900px;
+      margin: auto;
+    }
 
-      md-elevated-card {
-        padding: 16px;
-        border-radius: 24px;
-      }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      margin-bottom: 16px;
+    }
 
-      :root {
-        --md-ref-typeface-brand: 'Roboto Flex';
-        --md-ref-typeface-plain: 'Roboto Flex';
-      }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: auto;
+    }
 
-      /* ---------- VIDEO HEADER ---------- */
-      .video-wrapper {
-        position: relative;
-        width: 100%;
-        height: 86vh;
-        border-radius: 50px;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+    .hero .cta {
+      margin-top: 32px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
 
-      .bg-video {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transform: scale(1.05);
-        z-index: 0;
-        pointer-events: none;
-      }
+    .btn {
+      padding: 14px 26px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      background: var(--accent);
+      color: #000;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
 
-      .nma-flexyfont {
-        position: relative;
-        z-index: 1;
-        font-family: "Roboto Flex";
-        font-size: 100px;
-        text-align: center;
-        --font-slant: -10;
-        --font-weight: 5000;
-        --font-width: 155;
-        --font-grade: -50;
-        font-variation-settings: 
-          "slnt" var(--font-slant),
-          "wght" var(--font-weight),
-          "wdth" var(--font-width),
-          "GRAD" var(--font-grade);
-        color: #ffffff;
-        text-shadow: 2px 2px 80px rgba(0, 0, 0, 0.6);
-      }
-    </style>
-  </head>
+    .btn.secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid #333;
+    }
 
-  <body>
-    <!-- HEADER -->
-    <header>
-      <h1 class="md-typescale-title-large">Helimo's Arcade</h1>
-      <md-filled-tonal-button id="themeToggle">Toggle dark mode</md-filled-tonal-button>
-    </header>
+    .btn:hover {
+      transform: translateY(-2px);
+    }
 
-    <!-- MAIN -->
-    <main>
-      <section>
-        <md-elevated-card>
-          <div class="video-wrapper">
-            <video class="bg-video" autoplay muted loop playsinline>
-              <source src="Timeline.mp4" type="video/mp4" />
-            </video>
-            <h2 class="nma-flexyfont">Helimo's Arcade</h2>
-          </div>
+    .marquee {
+      overflow: hidden;
+      border-top: 1px solid #222;
+      border-bottom: 1px solid #222;
+      background: #0e0e14;
+      white-space: nowrap;
+    }
 
-          <br style="line-height:100px;" />
+    .marquee span {
+      display: inline-block;
+      padding: 12px 0;
+      animation: scroll 25s linear infinite;
+      color: var(--muted);
+    }
 
-          <p class="md-typescale-body-medium">
-            This is a fake website used to test a full Material 3 theme.
-          </p>
-          <md-filled-button>Primary action</md-filled-button>
-        </md-elevated-card>
+    @keyframes scroll {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
 
-        <md-elevated-card>
-          <h2 class="md-typescale-title-medium">Profile</h2>
-          <md-outlined-text-field label="Name"></md-outlined-text-field>
-          <md-outlined-text-field label="Email"></md-outlined-text-field>
-        </md-elevated-card>
+    section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 72px 24px;
+    }
 
-        <md-elevated-card>
-          <h2 class="md-typescale-title-medium">Preferences</h2>
-          <md-checkbox>Enable notifications</md-checkbox>
-          <md-radio name="r"></md-radio>
-          <md-radio name="r"></md-radio>
-        </md-elevated-card>
-      </section>
-    </main>
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 32px;
+      text-align: center;
+    }
 
-    <!-- DARK MODE TOGGLE -->
-    <script type="module">
-      const root = document.documentElement;
-      const btn = document.getElementById('themeToggle');
-      btn.addEventListener('click', () => {
-        root.classList.toggle('dark');
-      });
-    </script>
-  </body>
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid #222;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .card p {
+      color: var(--muted);
+      flex-grow: 1;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+      text-align: center;
+    }
+
+    .stat {
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 32px 16px;
+      border: 1px solid #222;
+    }
+
+    .stat strong {
+      font-size: 2rem;
+      display: block;
+      color: var(--accent-2);
+    }
+
+    .updates ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-width: 700px;
+      margin-inline: auto;
+    }
+
+    .updates li {
+      padding: 16px 0;
+      border-bottom: 1px solid #222;
+      color: var(--muted);
+    }
+
+    .faq details {
+      background: var(--panel);
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+    }
+
+    footer {
+      padding: 48px 24px;
+      border-top: 1px solid #222;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <strong>Helimo's Arcade</strong>
+    <div>
+      <a href="#games">Games</a>
+      <a href="#stats">Stats</a>
+      <a href="#updates">Updates</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>Welcome to the Arcade</h1>
+  <p>A growing collection of small and fun browser games.</p>
+
+  <div class="cta">
+    <a class="btn" href="#games">Browse Games</a>
+    <a class="btn secondary" href="#updates">Latest Updates</a>
+  </div>
+</div>
+
+
+<section id="games">
+  <h2>Games</h2>
+  <div class="games">
+    <div class="card">
+      <h3>🐭 Mouse Dash</h3>
+      <p>Guide your cursor through a moving maze without touching the walls.</p>
+      <a class="btn" href="/mousedash">Play</a>
+    </div>
+
+    <div class="card">
+      <h3>🐟 Fishy Business</h3>
+      <p>Guide your fish, snack on smaller fish, and dodge the big fish of the sea.</p>
+      <a class="btn" href="/fishybusiness">Play</a>
+    </div>
+    
+    <div class="card">
+      <h3>🟥 Platformered</h3>
+      <p>A simple yet engaging platformer with 17 unique levels.</p>
+      <a class="btn" href="/platformered">Play</a>
+    </div>
+
+    <div class="card">
+      <h3>🚧 Coming Soon</h3>
+      <p>More experiments, prototypes, and strange ideas are in the works.</p>
+      <a class="btn secondary">Soon</a>
+    </div>
+    
+    
+  </div>
+</section>
+
+<section id="stats">
+  <h2>Arcade Stats</h2>
+  <div class="stats">
+    <div class="stat">
+      <strong>3</strong>
+      Games Live
+    </div>
+    <div class="stat">
+      <strong>∞</strong>
+      Forever Free
+    </div>
+    <div class="stat">
+      <strong>0</strong>
+      Installs Required
+    </div>
+    <div class="stat">
+      <strong>100%</strong>
+      Browser Based
+    </div>
+  </div>
+</section>
+
+<section id="updates" class="updates">
+  <h2>Updates</h2>
+  <ul>
+    <li>🎮 Initial release of Mouse Dash</li>    
+    <li>⚡ Performance and loading improvements</li>
+    <li>✨ UI polish and visual tweaks</li>
+    <li>🐟 Initial release of Platformered</li>
+  </ul>
+</section>
+
+<section id="faq" class="faq">
+  <h2>FAQ</h2>
+
+  <details>
+    <summary>Are these games free?</summary>
+    <p>Yes! They are completely free and browser-based.</p>
+  </details>
+
+  <details>
+    <summary>Do you save progress?</summary>
+    <p>No, but we have plans to implement it.</p>
+  </details>
+
+  <details>
+    <summary>Are more games coming?</summary>
+    <p>Yes! Expect more amazing games soon.</p>
+  </details>
+  
+  <details>
+    <summary>Did you make these?</summary>
+    <p>I have created all of these games myself.</p>
+  </details>
+</section>
+
+<footer>
+  Helimo's Arcade · Built with <a href="https://neocities.org/" style="text-decoration: none;">Neocities</a> · Inspired by <a href="https://fmhy.net/" style="text-decoration: none;">FMHY</a>
+
+</footer>
+
+</body>
 </html>

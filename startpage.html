@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>New Tab</title>
+
+<style>
+    :root {
+        --bg: #1c1b22;
+        --card: #2b2a32;
+        --text: #e5e5e5;
+        --dim: #7c7884;
+        --accent: #757c58;
+        --radius: 12px;
+    }
+
+    body {
+        margin: 0;
+        background: var(--bg);
+        font-family: Inter, Arial, sans-serif;
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px;
+        margin-top: 140px;
+    }
+
+    .page-wrap {
+        width: 80%;
+        max-width: 950px;
+        margin: 0 auto;
+    }
+
+    #clock {
+        font-size: 4.5rem;
+        font-weight: 600;
+        margin-bottom: 30px;
+        letter-spacing: -3px;
+        width: 90%;
+        max-width: 950px;
+        margin: 25px 0 10px;
+        opacity: 1;
+        display: flex;
+        justify-content: left;
+    }
+
+    .search-container,
+    .section-title,
+    .bookmark-grid,
+    .instructions {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .search-container {
+        background: var(--card);
+        padding: 16px 22px;
+        border-radius: var(--radius);
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-container input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1.2rem;
+        font-family: Inter, Arial, sans-serif;
+        color: var(--text);
+    }
+
+    .providers {
+        display: flex;
+        gap:12px;
+        margin: 20px 0;
+        opacity: 0.9;
+        
+    }
+    
+    kbd {
+    background-color: #18171e;   /* your custom background */
+    color: #b6b3bc;                 /* text color */
+    padding: 2px 6px;            /* space around text */
+    border-radius: 4px;           /* rounded corners */
+    font-size: 0.8rem;            /* smaller font if you like */
+}
+
+
+    .provider {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        cursor: pointer;
+        font-size: 0.95rem;
+        background: #24232b;
+        padding: 6px 14px;
+        border-radius: var(--radius);
+        gap: 12px;  
+    }
+    
+    .provider img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; /* ← makes it a circle */
+    margin-top: 3px;
+}
+
+
+    .provider span.key {
+        margin-top: 3px;
+        font-size: 0.7rem;
+        color: var(--dim);
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+        margin: 25px 0 10px;
+        opacity: 0.9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .add-btn {
+        background: var(--card);
+        padding: 6px 14px;
+        border-radius: var(--radius);
+        cursor: pointer;
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    .search-icon {
+    font-size: 1.3rem;
+    margin-right: 12px;
+    opacity: 0.7;
+    }
+
+
+    .bookmark-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .bookmark {
+        background: #27262e;
+        padding: 10px 16px;
+        border-radius: var(--radius);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .bookmark:hover {
+        background: #23222A;
+    }
+
+    .bk-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #27262e;
+}
+
+.bk-icon img {
+    width: 100%;
+    height: 100%;
+}
+
+    .bk-keys {
+        margin-left: 8px;
+        color: var(--dim);
+        font-size: 0.75rem;
+    }
+
+    .instructions {
+        color: var(--dim);
+        font-size: 0.9rem;
+        margin-top: 20px;
+        line-height: 1.6;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Clock at the top -->
+<div id="clock"></div>
+
+<div class="page-wrap">
+
+<div class="search-container">
+    <span class="search-icon">
+     <svg width="20" height="20" viewBox="0 0 24 20" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </span>
+
+    <input id="search" autocomplete="on" placeholder=" What would you like to search for?">
+</div>
+
+<div class="providers">
+    <div class="provider" data-engine="https://duckduckgo.com/?t=ffab&q=">
+        <img src="https://www.google.com/s2/favicons?sz=64&domain_url=https://duckduckgo.com" width="20" style="margin-bottom:4px;">
+        DuckDuckGo
+        <span class="key">Alt + A</span>
+    </div>
+
+    <div class="provider" data-engine="https://chat.openai.com/?q=">
+        <img src="https://www.google.com/s2/favicons?sz=64&domain_url=https://chat.openai.com" width="20" style="margin-bottom:4px;">
+        ChatGPT
+        <span class="key">Alt + C</span>
+    </div>
+
+    <div class="provider" data-engine="https://www.youtube.com/results?search_query=">
+        <img src="https://www.google.com/s2/favicons?sz=64&domain_url=https://www.youtube.com" width="20" style="margin-bottom:4px;">
+        YouTube
+        <span class="key">Alt + Y</span>
+    </div>
+
+    <div class="provider" data-engine="https://www.reddit.com/search/?q=">
+        <img src="https://www.google.com/s2/favicons?sz=64&domain_url=https://www.reddit.com" width="20" style="margin-bottom:4px;">
+        Reddit
+        <span class="key">Alt + I</span>
+    </div>
+</div>
+
+
+<div class="section-title">
+    <span><span class="bookmark-title-icon">
+    <svg width="20" height="20" viewBox="0 0 24 20" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+    </svg>
+</span>Bookmarks</span>
+</div>
+
+<div class="bookmark-grid" id="bookmarks"></div>
+
+<div class="instructions">
+    Press <kbd>/</kbd> anywhere to focus the search box<br>
+    Use <kbd>Alt + a/c/y/i</kbd> to search different platforms<br>
+    Type bookmark chords (like <kbd>H</kbd> then <kbd>N</kbd> for Hacker News)<br>
+    Press <kbd>Enter</kbd> to search using DuckDuckGo by default
+</div>
+
+</div>
+
+<script>
+/* CLOCK */
+function updateClock() {
+    document.getElementById("clock").textContent =
+        new Date().toLocaleTimeString([], { 
+            hour: "2-digit", 
+            minute: "2-digit", 
+            second: "2-digit" 
+        });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+/* SEARCH ENGINES */
+let activeEngine = "https://duckduckgo.com/?t=ffab&q=";
+const providers = document.querySelectorAll(".provider");
+
+providers.forEach(p => {
+    p.addEventListener("click", () => {
+        activeEngine = p.dataset.engine;
+    });
+});
+
+document.addEventListener("keydown", (e) => {
+    if (e.altKey) {
+        if (e.key === "a") activeEngine = providers[0].dataset.engine;
+        if (e.key === "c") activeEngine = providers[1].dataset.engine;
+        if (e.key === "y") activeEngine = providers[2].dataset.engine;
+        if (e.key === "i") activeEngine = providers[3].dataset.engine;
+    }
+});
+
+const searchInput = document.getElementById("search");
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "/") {
+        e.preventDefault();
+        searchInput.focus();
+    }
+});
+
+searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        const q = searchInput.value.trim();
+        if (q) window.location.href = activeEngine + encodeURIComponent(q);
+    }
+});
+
+/* BOOKMARKS */
+const bookmarks = [
+    { name: "FMHY", url: "https://fmhy.net", icon: "F", keys: "F M", chord: ["f","m"] },
+    { name: "GitHub", url: "https://github.com", icon: "G", keys: "G H", chord: ["g","h"] },
+    { name: "Reddit", url: "https://reddit.com", icon: "R", keys: "R D", chord: ["r","d"] },
+    { name: "Scratch", url: "https://scratch.mit.edu", icon: "S", keys: "S C", chord: ["s","c"] },
+    { name: "YouTube", url: "https://youtube.com", icon: "Y", keys: "Y T", chord: ["y","t"] },
+    { name: "Neocities", url: "https://neocities.org", icon: "N", keys: "N E", chord: ["n","e"] }
+];
+
+const grid = document.getElementById("bookmarks");
+
+function drawBookmarks() {
+    grid.innerHTML = "";
+    bookmarks.forEach(b => {
+        const el = document.createElement("div");
+        el.className = "bookmark";
+        el.innerHTML = `
+            <div class="bk-icon">
+                <img src="https://www.google.com/s2/favicons?sz=64&domain_url=${b.url}">
+            </div>
+            <div>${b.name}</div>
+            <div class="bk-keys">${b.keys}</div>
+        `;
+        el.onclick = () => window.location.href = b.url;
+        grid.appendChild(el);
+    });
+}
+
+drawBookmarks();
+
+/* BOOKMARK CHORD LOGIC */
+let chordBuffer = [];
+const CHORD_TIMEOUT = 1000; // 1 second to complete chord
+
+document.addEventListener("keydown", (e) => {
+    if (searchInput === document.activeElement) return; // ignore if typing in search
+    const key = e.key.toLowerCase();
+    chordBuffer.push(key);
+
+    // check bookmarks for match
+    bookmarks.forEach(b => {
+        if (b.chord.length === chordBuffer.length &&
+            b.chord.every((k,i) => k === chordBuffer[i])) {
+            window.location.href = b.url;
+        }
+    });
+
+    // clear buffer after timeout
+    clearTimeout(window.chordTimeout);
+    window.chordTimeout = setTimeout(() => {
+        chordBuffer = [];
+    }, CHORD_TIMEOUT);
+});
+</script>
+
+
+</body>
+</html>
