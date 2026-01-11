@@ -8,6 +8,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet" />
 
+<script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    twemoji.parse(document.body, {
+      folder: "svg",
+      ext: ".svg"
+    });
+  });
+</script>
+
+
 
   <style>
     ::selection { text-shadow: 0 0 10px currentColor; }
@@ -32,6 +43,13 @@
       color: var(--text);
       line-height: 1.6;
     }
+
+    img.emoji {
+  height: 1em;
+  width: 1em;
+  vertical-align: -0.125em;
+}
+
 
     header {
       position: sticky;
