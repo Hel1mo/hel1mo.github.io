@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ExamForge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #ffffff;
+      --panel: #ffffff;
+      --border: #e5e7eb;
+      --text: #000000;
+      --muted: #000000;
+      --button-bg: #000000;
+      --button-text: #ffffff;
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #000000;
+      --panel: #000000;
+      --border: #16181d;
+      --text: #ffffff;
+      --muted: #ffffff;
+      --button-bg: #ffffff;
+      --button-text: #000000;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 32px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.3rem;
+      margin-bottom: 32px;
+      font-weight: 700;
+    }
+
+    .layout {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: monospace;
+      margin-bottom: 16px;
+      display: none;
+      resize: vertical;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-bottom: 16px;
+      font-family: 'Inter';
+    }
+
+    button.secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    /* ---------- QUESTION UI ---------- */
+
+    .question {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+
+    .question:last-child { border-bottom: none; }
+
+    .question p {
+      margin-top: 0;
+      font-weight: 600;
+    }
+
+    input[type=text] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-top: 6px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter';
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .control {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .radio .control { border-radius: 50%; }
+    .checkbox .control { border-radius: 3px; }
+
+    input:checked + .control::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--text);
+    }
+
+    .radio input:checked + .control::after { border-radius: 50%; }
+    .checkbox input:checked + .control::after { border-radius: 1px; }
+
+    .answer {
+      display: none;
+      margin-top: 8px;
+      font-size: 0.9rem;
+    }
+
+    .correct { font-weight: 600; }
+
+    /* ---------- TUTORIAL ---------- */
+
+    #tutorial {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 360px;
+      height: 100vh;
+      background: var(--panel);
+      border-left: 1px solid var(--border);
+      padding: 24px;
+      padding-top: 70px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+    }
+
+    #tutorial pre {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      overflow-x: auto;
+    }
+
+    #helpButton {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      padding: 0;
+      font-size: 18px;
+      z-index: 1100;
+    }
+
+    input:focus-visible {
+      outline: 0px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<button id="helpButton" onclick="toggleTutorial()">?</button>
+
+<div id="tutorial">
+  <h2>ExamForge Code Help</h2>
+  <p>Each question must be written on a single line and wrapped in &#60; &#62;. Questions are split into four types:</p>
+  <ul>
+    <li>True/False</li>
+    <li>Written Question</li>
+    <li>Single Choice</li>
+    <li>Multiple Choice</li>
+  </ul>
+    <h3>Rules</h3>
+  <ul>
+    <li>One question per line</li>
+    <li>No blank lines</li>
+    <li>Text must be in quotes</li>
+    <li>Use ! to mark correct answers</li>
+  </ul>
+
+  <h3>Examples</h3>
+
+  <h4>True / False</h4>
+  <pre><code>&#60;truefalse "The sky is blue" "1"&#62;</code></pre>
+
+  <h4>Written Question</h4>
+  <pre><code>&#60;question "Explain photosynthesis" "Plants use light to make food"&#62;</code></pre>
+
+  <h4>Single Choice</h4>
+  <pre><code>&#60;choice "Capital of France?" "!Paris" "London" "Rome"&#62;</code></pre>
+
+  <h4>Multiple Choice</h4>
+  <pre><code>&#60;multiplechoice "Which are planets?" "!Earth" "Sun" "!Mars"&#62;</code></pre>
+
+  <h3>Common Errors</h3>
+  <ul>
+    <li>Blank lines</li>
+    <li>Missing quotes</li>
+    <li>No correct answer marked</li>
+  </ul>
+</div>
+
+<h1>ExamForge</h1>
+
+<div class="layout">
+  <div class="panel">
+
+<textarea id="codeInput">
+<truefalse "The sky is blue" "1">
+<question "Explain what photosynthesis is" "Plants use light to make food">
+<multiplechoice "Which are planets?" "!Earth" "Sun" "!Mars">
+<choice "Capital of France?" "!Paris" "London" "Rome">
+</textarea>
+
+    <button onclick="loadQuiz()">Start Test</button>
+    <button onclick="toggleCode()" class="secondary">Show Code</button>
+    <button onclick="toggleAnswers()" class="secondary">Show Answers</button>
+    <button onclick="toggleTheme()" class="secondary" style="float: right; right: 240px;">Dark Mode</button>
+
+    <div id="quiz"></div>
+  </div>
+</div>
+
+<script>
+const root = document.documentElement;
+
+function setTheme(theme) {
+  root.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+}
+
+function toggleTheme() {
+  const current = root.getAttribute('data-theme');
+  setTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+(function initTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved) setTheme(saved);
+})();
+
+function toggleTutorial() {
+  const t = document.getElementById('tutorial');
+  t.style.display = t.style.display === 'none' ? 'block' : 'none';
+}
+
+let questions = [];
+let answersVisible = false;
+
+function toggleCode() {
+  const code = document.getElementById('codeInput');
+  code.style.display = code.style.display === 'none' ? 'block' : 'none';
+}
+
+function toggleAnswers() {
+  answersVisible = !answersVisible;
+  document.querySelectorAll('.answer').forEach(a => {
+    a.style.display = answersVisible ? 'block' : 'none';
+  });
+}
+
+function loadQuiz() {
+  questions = [];
+  document.getElementById('quiz').innerHTML = '';
+
+  const lines = document.getElementById('codeInput').value.split(/\n+/);
+
+  lines.forEach(line => {
+    line = line.trim();
+    if (!line.startsWith('<') || !line.endsWith('>')) return;
+
+    const raw = line.slice(1, -1);
+    const parts = raw.match(/"(.*?)"|\S+/g)?.map(p => p.replace(/"/g, '')) || [];
+    const type = parts[0];
+
+    if (type === 'truefalse') {
+      questions.push({ type, text: parts[1], answer: parts[2] === '1' ? 'True' : 'False' });
+    }
+
+    if (type === 'question') {
+      questions.push({ type, text: parts[1], answer: parts[2] || '' });
+    }
+
+    if (type === 'choice') {
+      const rawChoices = parts.slice(2);
+      questions.push({
+        type,
+        text: parts[1],
+        choices: rawChoices.map(c => c.replace('!', '')),
+        answer: rawChoices.find(c => c.startsWith('!'))?.slice(1) || ''
+      });
+    }
+
+    if (type === 'multiplechoice') {
+      const rawChoices = parts.slice(2);
+      questions.push({
+        type,
+        text: parts[1],
+        choices: rawChoices.map(c => c.replace('!', '')),
+        answer: rawChoices.filter(c => c.startsWith('!')).map(c => c.slice(1))
+      });
+    }
+  });
+
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+
+  questions.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.innerHTML = `<p>${i + 1}. ${q.text}</p>`;
+
+    if (q.type === 'truefalse') {
+      ['True', 'False'].forEach(v => {
+        div.innerHTML += `
+          <label class="radio">
+            <input type="radio" name="q${i}">
+            <span class="control"></span>
+            ${v}
+          </label>`;
+      });
+      div.innerHTML += `<div class="answer">Answer: <span class="correct">${q.answer}</span></div>`;
+    }
+
+    if (q.type === 'question') {
+      div.innerHTML += `
+        <input type="text" placeholder="Write your answer">
+        <div class="answer">Suggested Answer: <span class="correct">${q.answer}</span></div>`;
+    }
+
+    if (q.type === 'choice') {
+      q.choices.forEach(choice => {
+        div.innerHTML += `
+          <label class="radio">
+            <input type="radio" name="q${i}">
+            <span class="control"></span>
+            ${choice}
+          </label>`;
+      });
+      div.innerHTML += `<div class="answer">Answer: <span class="correct">${q.answer}</span></div>`;
+    }
+
+    if (q.type === 'multiplechoice') {
+      q.choices.forEach(choice => {
+        div.innerHTML += `
+          <label class="checkbox">
+            <input type="checkbox">
+            <span class="control"></span>
+            ${choice}
+          </label>`;
+      });
+      div.innerHTML += `<div class="answer">Answer: <span class="correct">${q.answer.join(', ')}</span></div>`;
+    }
+
+    quizDiv.appendChild(div);
+  });
+}
+</script>
+
+</body>
+</html>
