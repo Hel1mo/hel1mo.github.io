@@ -8,12 +8,18 @@
 
 <style>
     :root {
-        --bg: #1c1b22;
-        --card: #2b2a32;
-        --text: #e5e5e5;
-        --dim: #7c7884;
-        --accent: #757c58;
-        --radius: 12px;
+      --bg: #1c1b22;
+     --card: #2b2a32;
+     --card2: #27262e;
+     --card-hover: #23222A;
+     --provider: #24232b;
+     --kbd-bg: #18171e;
+
+     --text: #e5e5e5;
+      --dim: #7c7884;
+      --accent: #757c58;
+
+      --radius: 12px;
     }
 
     body {
@@ -82,7 +88,7 @@
     }
     
     kbd {
-        background-color: #18171e;
+        background-color: var(--kbd-bg);
         color: #b6b3bc;
         padding: 2px 6px;
         border-radius: 4px;
@@ -95,7 +101,7 @@
         align-items: center;
         cursor: pointer;
         font-size: 0.95rem;
-        background: #24232b;
+        background: var(--provider);
         padding: 6px 14px;
         border-radius: var(--radius);
         gap: 12px;  
@@ -147,7 +153,7 @@
     }
 
     .bookmark {
-        background: #27262e;
+        background: var(--card2);
         padding: 10px 16px;
         border-radius: var(--radius);
         display: flex;
@@ -158,7 +164,7 @@
     }
 
     .bookmark:hover {
-        background: #23222A;
+        background: var(--card-hover);
     }
 
     .bk-icon {
@@ -169,7 +175,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #27262e;
+        background: var(--card2);
     }
 
     .bk-icon img {
@@ -189,10 +195,211 @@
         margin-top: 20px;
         line-height: 1.6;
     }
+    
+    /* SETTINGS */
+
+.settings-btn{
+    position:fixed;
+    top:20px;
+    right:20px;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.settings-panel{
+    position:fixed;
+    top:60px;
+    right:20px;
+    background:var(--card);
+    padding:18px;
+    border-radius:var(--radius);
+    display:none;
+    flex-direction:column;
+    gap:12px;
+    min-width:210px;
+}
+
+.settings-panel label{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    font-size:0.9rem;
+}
+
+.settings-panel button{
+    margin-top:8px;
+    padding:8px 10px;
+    border:none;
+    border-radius:8px;
+    background:var(--provider);
+    color:var(--text);
+    cursor:pointer;
+    font-family:Inter, Arial, sans-serif;
+    transition:0.2s;
+}
+
+.settings-panel button:hover{
+    opacity:0.85;
+}
+
+.settings-panel input[type="color"]{
+    width:32px;
+    height:22px;
+    border:none;
+    outline:none;
+    padding:0;
+    background:none;
+    cursor:pointer;
+    appearance:none;
+    -webkit-appearance:none;
+}
+
+.settings-panel label{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    font-size:0.9rem;
+}
+
+/* CUSTOM COLOR PICKERS */
+
+.color-wrap{
+position:relative;
+width:32px;
+height:22px;
+}
+
+.color-wrap input[type="color"]{
+position:absolute;
+width:100%;
+height:100%;
+opacity:0;
+cursor:pointer;
+}
+
+.color-box{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:4px;
+background:var(--c);
+border:1px solid color-mix(in srgb, var(--c), black 30%);
+}
+
+
 </style>
 </head>
 
 <body>
+
+<div class="settings-btn" id="settingsBtn">
+
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2"
+stroke-linecap="round" stroke-linejoin="round">
+
+<circle cx="12" cy="12" r="3"></circle>
+
+<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06
+a2 2 0 1 1-2.83 2.83l-.06-.06
+a1.65 1.65 0 0 0-1.82-.33
+1.65 1.65 0 0 0-1 1.51V21
+a2 2 0 1 1-4 0v-.09
+a1.65 1.65 0 0 0-1-1.51
+1.65 1.65 0 0 0-1.82.33l-.06.06
+a2 2 0 1 1-2.83-2.83l.06-.06
+a1.65 1.65 0 0 0 .33-1.82
+1.65 1.65 0 0 0-1.51-1H3
+a2 2 0 1 1 0-4h.09
+a1.65 1.65 0 0 0 1.51-1
+1.65 1.65 0 0 0-.33-1.82l-.06-.06
+a2 2 0 1 1 2.83-2.83l.06.06
+a1.65 1.65 0 0 0 1.82.33h0
+a1.65 1.65 0 0 0 1-1.51V3
+a2 2 0 1 1 4 0v.09
+a1.65 1.65 0 0 0 1 1.51
+1.65 1.65 0 0 0 1.82-.33l.06-.06
+a2 2 0 1 1 2.83 2.83l-.06.06
+a1.65 1.65 0 0 0-.33 1.82v0
+a1.65 1.65 0 0 0 1.51 1H21
+a2 2 0 1 1 0 4h-.09
+a1.65 1.65 0 0 0-1.51 1z"></path>
+
+</svg>
+
+</div>
+
+<div class="settings-panel" id="settingsPanel">
+
+<label>
+Background
+<div class="color-wrap">
+<input type="color" id="bgPick">
+<span class="color-box"></span>
+</div>
+</label>
+
+<label>
+Cards
+<div class="color-wrap">
+<input type="color" id="cardPick">
+<span class="color-box"></span>
+</div>
+</label>
+
+<label>
+Search Buttons
+<div class="color-wrap">
+<input type="color" id="providerPick">
+<span class="color-box"></span>
+</div>
+</label>
+
+<label>
+Bookmarks
+<div class="color-wrap">
+<input type="color" id="bookmarkPick">
+<span class="color-box"></span>
+</div>
+</label>
+
+<label>
+Bookmark Hover
+<div class="color-wrap">
+<input type="color" id="bookmarkHoverPick">
+<span class="color-box"></span>
+</div>
+</label>
+
+<label>
+KBD Background
+<div class="color-wrap">
+<input type="color" id="kbdPick">
+<span class="color-box"></span>
+</div>
+</label>
+
+<label>
+Text
+<div class="color-wrap">
+<input type="color" id="textPick">
+<span class="color-box"></span>
+</div>
+</label>
+
+<label>
+Dim Text
+<div class="color-wrap">
+<input type="color" id="dimPick">
+<span class="color-box"></span>
+</div>
+</label>
+
+<button id="resetTheme">Reset Theme</button>
+
+
+</div>
 
 <div id="clock"></div>
 
@@ -253,6 +460,73 @@
 </div>
 
 <script>
+
+/* SETTINGS */
+
+const settingsBtn = document.getElementById("settingsBtn")
+const settingsPanel = document.getElementById("settingsPanel")
+
+settingsBtn.onclick = () => {
+
+    settingsPanel.style.display =
+        settingsPanel.style.display === "flex" ? "none" : "flex"
+
+}
+
+const themeVars = {
+
+    "--bg": "bgPick",
+    "--card": "cardPick",
+    "--provider": "providerPick",
+
+    "--card2": "bookmarkPick",
+    "--card-hover": "bookmarkHoverPick",
+
+    "--kbd-bg": "kbdPick",
+    "--text": "textPick",
+    "--dim": "dimPick"
+
+}
+
+for (let v in themeVars) {
+
+    const picker = document.getElementById(themeVars[v])
+    const box = picker.nextElementSibling
+    const saved = localStorage.getItem(v)
+
+    let color = saved || getComputedStyle(document.documentElement).getPropertyValue(v).trim()
+
+    picker.value = color
+    box.style.setProperty("--c", color)
+
+    if (saved) {
+        document.documentElement.style.setProperty(v, saved)
+    }
+
+    picker.addEventListener("input", e => {
+
+        const color = e.target.value
+
+        document.documentElement.style.setProperty(v, color)
+        box.style.setProperty("--c", color)
+
+        localStorage.setItem(v, color)
+
+    })
+}
+
+/* RESET THEME */
+
+document.getElementById("resetTheme").onclick = () => {
+
+    for(let v in themeVars){
+        localStorage.removeItem(v)
+    }
+
+    location.reload()
+
+}
+
 /* CLOCK */
 function updateClock() {
     document.getElementById("clock").textContent =
@@ -313,7 +587,8 @@ const DEFAULT_BOOKMARKS = [
 let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || DEFAULT_BOOKMARKS;
 const grid = document.getElementById("bookmarks");
 
-function saveBookmarks() {
+function saveBookmarks() {    if (searchInput === document.activeElement) return;
+
     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
 }
 
