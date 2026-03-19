@@ -61,14 +61,25 @@
         max-width: 100%;
     }
 
-    .search-container {
-        background: var(--card);
-        padding: 16px 22px;
-        border-radius: var(--radius);
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
+.search-container {
+    background: var(--card);
+    padding: 16px 22px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative; /* add this */
+}
+
+#suggestions {
+    position: absolute;
+    background: var(--card);
+    border-radius: var(--radius);
+    margin-top: 6px;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1000; /* add this */
+}
 
     .search-container input {
         width: 100%;
@@ -660,6 +671,53 @@ document.addEventListener("keydown", (e) => {
     window.chordTimeout = setTimeout(() => {
         chordBuffer = [];
     }, CHORD_TIMEOUT);
+});
+
+/* SEARCH SUGGESTIONS */
+
+const suggestionsBox = document.getElementById("suggestions");
+
+searchInput.addEventListener("input", async () => {
+
+    const q = searchInput.value.trim();
+
+    if (!q) {
+        suggestionsBox.innerHTML = "";
+        return;
+    }
+
+    try {
+
+        const res = await fetch(
+            "https://suggestqueries.google.com/complete/search?client=firefox&q=" + encodeURIComponent(q)
+        );
+
+        const data = await res.json();
+
+        const suggestions = data[1];
+
+        suggestionsBox.innerHTML = "";
+
+        suggestions.slice(0,6).forEach(text => {
+
+            const div = document.createElement("div");
+            div.className = "suggestion";
+            div.textContent = text;
+
+            div.onclick = () => {
+                searchInput.value = text;
+                suggestionsBox.innerHTML = "";
+                window.location.href = activeEngine + encodeURIComponent(text);
+            };
+
+            suggestionsBox.appendChild(div);
+
+        });
+
+    } catch (e) {
+        console.log("suggestions failed", e);
+    }
+
 });
 </script>
 
