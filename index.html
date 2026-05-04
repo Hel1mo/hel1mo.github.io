@@ -122,6 +122,18 @@
       color: #000;
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
+    
+    .btn.notice {
+      padding: 5px 15px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 400;
+      background: transparent;
+      border: 1px solid #333;
+      color: var(--muted);
+      font-size: 15px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
 
     .btn.secondary {
       background: transparent;
@@ -170,11 +182,24 @@
     }
 
     .games {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-      grid-template-columns: repeat(3, 1fr);
-    }
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* Tablet */
+@media (min-width: 600px) {
+  .games {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop (MAX 3) */
+@media (min-width: 900px) {
+  .games {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 
     .card {
       background: var(--panel);
@@ -264,7 +289,6 @@
   <nav>
     <strong>Helimo's Arcade</strong>
     <div>
-      <a href="https://keepandroidopen.org/"><b>#keepandroidopen</b></a>
       <a href="#games">Games</a>
       <a href="#projects">Projects</a>
       <a href="#updates">Updates</a>
@@ -274,9 +298,9 @@
 </header>
 
 <div class="hero">
+  <a class="btn notice" href="https://keepandroidopen.org/">Keep Android Open 🔓️</a>
   <h1>Welcome to the Arcade</h1>
   <p>A growing collection of small and fun browser games.</p>
-
   <div class="cta">
     <a class="btn" href="#games">Browse Games</a>
     <a class="btn secondary" href="#updates">Latest Updates</a>
