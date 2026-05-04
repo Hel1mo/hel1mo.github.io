@@ -42,6 +42,7 @@
         var(--bg);
       color: var(--text);
       line-height: 1.6;
+      
     }
 
     img.emoji {
@@ -58,6 +59,7 @@
       background: rgba(10,10,15,0.8);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid #222;
+      
     }
 
     nav {
@@ -67,6 +69,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      
     }
 
     nav strong {
@@ -112,6 +115,10 @@
       gap: 16px;
       flex-wrap: wrap;
     }
+    
+    .title {
+      white-space: pre;
+    }
 
     .btn {
       padding: 14px 26px;
@@ -154,7 +161,7 @@
       border-top: 1px solid #222;
       border-bottom: 1px solid #222;
       background: #0e0e14;
-      white-space: nowrap;
+      white-space: pre;
     }
 
     .marquee span {
@@ -248,6 +255,7 @@
       font-size: 2rem;
       display: block;
       color: var(--accent-2);
+      white-space: pre;
     }
 
     .updates ul {
@@ -280,6 +288,114 @@
       font-size: 0.9rem;
     }
     
+    .contact-card {
+  max-width: 600px;
+  margin: auto;
+  background: var(--panel);
+  border: 1px solid #222;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.contact-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-card label {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.contact-card input,
+.contact-card textarea {
+  background: #0e0e14;
+  border: 1px solid #222;
+  border-radius: 10px;
+  padding: 12px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.contact-card input:focus,
+.contact-card textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.contact-card button {
+  margin-top: 8px;
+}
+
+.contact-card button {
+  outline: none;
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.faq-contact {
+  max-width: 1200px;
+  margin: auto;
+  padding: 72px 24px;
+}
+
+.faq-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+  .faq-contact-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.mobile-notice {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: rgba(255, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+
+  padding: 12px 16px;
+  border-radius: 12px;
+  z-index: 9999;
+
+  display: none;
+  align-items: center;
+  gap: 12px;
+  width: 400px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.mobile-notice button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.mobile-notice button:hover {
+  opacity: 1;
+}
+    
   </style>
 </head>
 
@@ -287,12 +403,12 @@
 
 <header>
   <nav>
-    <strong>Helimo's Arcade</strong>
+    <strong class="title">🎮️  Helimo's Arcade</strong>
     <div>
       <a href="#games">Games</a>
       <a href="#projects">Projects</a>
       <a href="#updates">Updates</a>
-      <a href="#faq">FAQ</a>
+      <a href="#faq-contact">FAQ & Contact Me</a>
     </div>
   </nav>
 </header>
@@ -390,28 +506,62 @@
   </ul>
 </section>
 
-<section id="faq" class="faq">
-  <h2>FAQ</h2>
+<section id="faq-contact" class="faq-contact">
+  <h2>FAQ & Contact Me</h2>
 
-  <details>
-    <summary>Are the games free?</summary>
-    <p>Yes! They are completely free and browser-based.</p>
-  </details>
+  <div class="faq-contact-grid">
 
-  <details>
-    <summary>Are more things coming?</summary>
-    <p>Yes! Expect more amazing stuff soon.</p>
-  </details>
-  
-  <details>
-    <summary>Did you make these?</summary>
-    <p>I have created all of these projects myself.</p>
-  </details>
+    <div class="faq">
+      <details>
+        <summary>Are the games free?</summary>
+        <p>Yes! They are completely free and browser-based.</p>
+      </details>
+
+      <details>
+        <summary>Are more things coming?</summary>
+        <p>Yes! Expect more amazing stuff soon.</p>
+      </details>
+
+      <details>
+        <summary>Did you make these?</summary>
+        <p>I have created all of these projects myself.</p>
+      </details>
+    </div>
+
+    <div class="contact">
+      <div class="contact-card">
+        <form action="https://formspree.io/f/mzdoeyoe" method="POST">
+          <label>Your email</label>
+          <input type="email" name="email" placeholder="you@example.com" required>
+
+          <label>Your message</label>
+          <textarea name="message" rows="5" placeholder="Type your message..." required></textarea>
+
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
 </section>
 
+<br><br>
 <footer>
   Helimo's Arcade · Built with <a href="https://pages.github.com/" style="text-decoration: none; color: var(--accent);">Github Pages</a> · Inspired by <a href="https://fmhy.net/" style="text-decoration: none; color: var(--accent);">FMHY</a>
 </footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    if (window.innerWidth <= 600) {
+      document.getElementById("mobileNotice").style.display = "flex";
+    }
+  });
+</script>
+
+<div class="mobile-notice" id="mobileNotice">
+  🖥️ This site is best viewed on computer!
+  <button onclick="document.getElementById('mobileNotice').style.display='none'">✕</button>
+</div>
 
 </body>
 </html>
