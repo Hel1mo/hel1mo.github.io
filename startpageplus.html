@@ -574,6 +574,55 @@ body {
 
 <script>
 
+function renderShortcuts(){
+    shortcutsGrid.style.opacity = "0.3";
+
+    setTimeout(() => {
+        shortcutsGrid.innerHTML = "";
+
+        shortcuts.forEach((shortcut,index)=>{
+
+            if(!shortcut){
+                shortcutsGrid.innerHTML += `
+                    <button class="addShortcut" onclick="addShortcut(${index})">
+                        +
+                    </button>
+                `;
+                return;
+            }
+
+            let domain = "";
+            try{ domain = new URL(shortcut.url).hostname; }catch{}
+
+            shortcutsGrid.innerHTML += `
+                <div class="shortcutWrapper">
+                    <a class="shortcut" href="${shortcut.url}">
+                        <img class="shortcutIcon"
+                        src="https://www.google.com/s2/favicons?sz=64&domain=${domain}">
+                        <div class="shortcutLabel">${shortcut.label}</div>
+                    </a>
+
+                    <div class="shortcutControls">
+                        <button class="editShortcut" onclick="editShortcut(${index})">✎</button>
+                        <button class="deleteShortcut" onclick="deleteShortcut(${index})">×</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        shortcutsGrid.style.opacity = "1";
+    }, 50);
+}
+
+function preloadImage(url){
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => resolve(url);
+        img.onerror = reject;
+    });
+}
+
 function smoothText(el, value){
     el.animate([
         { opacity: 0.4, transform: "translateY(-2px)" },
@@ -649,48 +698,44 @@ setInterval(updateClock,1000);
 
 async function setWallpaper(){
     try{
+        const el = document.getElementById("wallpaper");
+
         const CACHE_KEY = "wallpaper_cache";
         const CACHE_TIME_KEY = "wallpaper_cache_time";
-        const MAX_AGE = 1000 * 60 * 20; // 20 minutes
+        const MAX_AGE = 1000 * 60 * 20;
 
         const cached = localStorage.getItem(CACHE_KEY);
         const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
-
         const now = Date.now();
 
-        // Use cache if still fresh
+        let url;
+
         if(cached && cachedTime && (now - cachedTime < MAX_AGE)){
-            document.getElementById("wallpaper").style.backgroundImage =
-                `url("${cached}")`;
-            return;
+            url = cached;
+        } else {
+            const res = await fetch(
+                "https://bing.biturl.top/?resolution=UHD&format=json&index=0&mkt=zh-CN"
+            );
+            const data = await res.json();
+            url = data.url;
+
+            localStorage.setItem(CACHE_KEY, url);
+            localStorage.setItem(CACHE_TIME_KEY, now);
         }
 
-        // Otherwise fetch new
-        const res = await fetch(
-            "https://bing.biturl.top/?resolution=UHD&format=json&index=0&mkt=zh-CN"
-        );
+        // PRELOAD FIRST (this is the key fix)
+        await preloadImage(url);
 
-        const data = await res.json();
+        // fade swap
+        el.style.opacity = "0";
 
-        const url = data.url;
-
-        // Apply immediately
-        document.getElementById("wallpaper").style.backgroundImage =
-            `url("${url}")`;
-
-        // Save to cache
-        localStorage.setItem(CACHE_KEY, url);
-        localStorage.setItem(CACHE_TIME_KEY, now.toString());
+        setTimeout(() => {
+            el.style.backgroundImage = `url("${url}")`;
+            el.style.opacity = "1";
+        }, 200);
 
     }catch(e){
-        console.error("Wallpaper failed:", e);
-
-        // fallback to cached even if expired
-        const cached = localStorage.getItem("wallpaper_cache");
-        if(cached){
-            document.getElementById("wallpaper").style.backgroundImage =
-                `url("${cached}")`;
-        }
+        console.error(e);
     }
 }
 
@@ -920,10 +965,9 @@ try{
         shortcutsGrid.innerHTML += `
             <div class="shortcutWrapper">
 
-                <a
-                    class="shortcut"
-                    href="${shortcut.url}"
-                    target="_blank">
+               <a
+    class="shortcut"
+    href="${shortcut.url}">
 
                     <img
                         class="shortcutIcon"
