@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Startpage Advanced</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --text:#ffffff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column; 
+
+    font-family:Inter,Arial,sans-serif;
+    color:var(--text);
+}
+
+
+
+#container{
+    width:min(820px,92vw);
+    margin:auto;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:20px;
+}
+
+/* Wallpaper */
+
+#wallpaper{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+#wallpaper::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.15);
+}
+
+/* Clock */
+
+#clockCard{
+    width:100%;
+
+    display:flex;
+    align-items:center;
+    gap:28px;
+
+    padding:24px 28px;
+
+    background:rgba(255,255,255,.06);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:28px;
+}
+
+#analogClock{
+    position:relative;
+
+    width:180px;
+    height:180px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.05);
+    border:2px solid rgba(255,255,255,.15);
+}
+
+.clockCenter{
+    position:absolute;
+    left:50%;
+    top:50%;
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:white;
+
+    transform:translate(-50%,-50%);
+}
+
+.hand{
+    position:absolute;
+
+    left:50%;
+    bottom:50%;
+
+    transform-origin:bottom center;
+
+    border-radius:999px;
+}
+
+.hour{
+    width:4px;
+    height:45px;
+    background:white;
+    margin-left:-2px;
+}
+
+.minute{
+    width:3px;
+    height:65px;
+    background:white;
+    margin-left:-1.5px;
+}
+
+.second{
+    width:2px;
+    height:75px;
+    background:#ff6b6b;
+    margin-left:-1px;
+}
+
+.clockInfo{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+    
+}
+
+#clockTime{
+    font-size:5rem;
+    font-weight:800;
+    line-height:1;
+    letter-spacing:-0.05em;
+}
+
+#clockWeekday{
+    margin-top:8px;
+    font-size:1.4rem;
+    opacity:.9;
+}
+
+#clockDate{
+    opacity:.65;
+    margin-top:2px;
+    font-size:1.2rem;
+}
+
+.widgets{
+    width:100%;
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:18px;
+}
+
+#weatherBar,
+#shortcutsCard{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:28px;
+
+}
+
+#weatherBar{
+    padding:22px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.weatherTop{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+}
+
+.weatherLeft{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.weatherBigIcon svg{
+    width:72px;
+    height:72px;
+}
+
+.weatherLocation{
+    font-size:.95rem;
+    opacity:.75;
+}
+
+.weatherTemp{
+    font-size:4rem;
+    font-weight:800;
+    line-height:1;
+}
+
+.weatherDesc{
+    opacity:.65;
+}
+
+.weatherHighLow{
+    font-size:1.3rem;
+    font-weight:700;
+}
+
+.forecast{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:8px;
+}
+
+.forecastItem{
+    text-align:center;
+}
+
+.forecastTime{
+    font-size:.8rem;
+    opacity:.65;
+    margin-bottom:6px;
+}
+
+.forecastIcon svg{
+    width:28px;
+    height:28px;
+}
+
+.forecastTemp{
+    margin-top:4px;
+    font-weight:600;
+}
+
+#shortcutsCard{
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.shortcutsTitle{
+    font-size:1rem;
+    font-weight:700;
+    opacity:.85;
+}
+
+.shortcutsGrid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    grid-template-rows:repeat(2,1fr);
+    gap:10px;
+    height:100%;
+    flex:1;
+}
+
+.shortcut{
+    background:rgba(255,255,255,.04);
+
+    text-decoration:none;
+    color:white;
+
+    border:none;
+    outline:none;
+
+    border-radius:18px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    gap:8px;
+
+    min-height:90px;
+
+    transition:.2s;
+}
+
+.shortcut:hover{
+    background:rgba(255,255,255,.08);
+    transform:translateY(-2px);
+}
+
+.shortcutIcon{
+    font-size:1.8rem;
+}
+
+.shortcutLabel{
+    font-size:.85rem;
+    opacity:.9;
+}
+
+.shortcutWrapper{
+    position:relative;
+}
+
+.shortcutIcon{
+    width:32px;
+    height:32px;
+    border-radius:8px;
+}
+
+.shortcutWrapper:hover .editShortcut{
+    opacity:1;
+}
+
+.addShortcut{
+    cursor:pointer;
+    font-size:2rem;
+    border:none;
+}
+
+@media(max-width:800px){
+
+    .widgets{
+        grid-template-columns:1fr;
+    }
+
+}
+
+.shortcutControls{
+    position:absolute;
+    top:6px;
+    right:6px;
+
+    display:flex;
+    gap:4px;
+
+    opacity:0;
+    transition:.2s;
+}
+
+.shortcutWrapper:hover .shortcutControls{
+    opacity:1;
+}
+
+.editShortcut,
+.deleteShortcut{
+    width:22px;
+    height:22px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(0,0,0,.35);
+    color:white;
+
+    cursor:pointer;
+}
+
+.deleteShortcut:hover{
+    background:rgba(255,60,60,.7);
+}
+
+.addShortcut{
+    background:rgba(255,255,255,.04);
+    border:none;
+    border-radius:18px;
+
+    color:white;
+    font-size:2rem;
+
+    cursor:pointer;
+
+    width:100%;
+    height:100%;
+}
+
+#date{
+    margin-top:-10px;
+    margin-bottom:4px;
+
+    font-size:1.25rem;
+    font-weight:500;
+
+    color:rgba(255,255,255,.75);
+    text-align:center;
+
+    text-shadow:0 2px 10px rgba(0,0,0,.2);
+}
+
+/* =========================
+   Smooth entrance animations
+========================= */
+
+:root {
+    --ease: cubic-bezier(.2,.9,.2,1);
+}
+
+/* Page fade */
+body {
+    opacity: 0;
+    animation: pageIn 900ms ease forwards;
+}
+
+@keyframes pageIn {
+    to { opacity: 1; }
+}
+
+/* Shared smooth entry */
+#clockCard,
+#weatherBar,
+#shortcutsCard {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+    filter: blur(10px);
+    animation: riseIn 900ms var(--ease) forwards;
+}
+
+#clockCard { animation-delay: 120ms; }
+#weatherBar { animation-delay: 260ms; }
+#shortcutsCard { animation-delay: 380ms; }
+
+@keyframes riseIn {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* Forecast items */
+.forecastItem {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: itemIn 500ms var(--ease) forwards;
+}
+
+@keyframes itemIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Shortcuts smoother feel */
+.shortcutWrapper,
+.addShortcut {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+    animation: itemIn 600ms var(--ease) forwards;
+}
+
+/* Hover becomes more “buttery” */
+.shortcut,
+#clockCard,
+#weatherBar,
+#shortcutsCard {
+    transition: transform 300ms var(--ease), box-shadow 300ms var(--ease), background 300ms var(--ease);
+}
+
+/* Reduce motion support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+    body {
+        opacity: 1;
+    }
+}
+</style>
+</head>
+
+<div id="wallpaper"></div>
+
+<body>
+
+<div id="container">
+
+    <div id="clockCard">
+
+    <div id="analogClock">
+        <div class="hand hour" id="hourHand"></div>
+        <div class="hand minute" id="minuteHand"></div>
+        <div class="hand second" id="secondHand"></div>
+        <div class="clockCenter"></div>
+    </div>
+
+    <div class="clockInfo">
+        <div id="clockTime"></div>
+        <div id="clockWeekday"></div>
+        <div id="clockDate"></div>
+    </div>
+
+</div>
+    
+
+    <div class="widgets">
+
+        <div id="weatherBar">
+
+            <div class="weatherTop">
+
+                <div class="weatherLeft">
+                    <div class="weatherBigIcon" id="wIcon"></div>
+
+                    <div class="weatherMain">
+                        <div class="weatherLocation" id="wLocation">
+                            
+                        </div>
+
+                        <div class="weatherTemp" id="wTemp">
+                            --°
+                        </div>
+
+                        <div class="weatherDesc" id="wText">
+                            Loading...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weatherRight">
+                    <div class="weatherHighLow" id="wHighLow">
+                        --° / --°
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="forecast" id="forecast"></div>
+
+        </div>
+
+        <div id="shortcutsCard">
+
+
+
+    <div class="shortcutsGrid" id="shortcutsGrid"></div>
+
+</div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+function smoothText(el, value){
+    el.animate([
+        { opacity: 0.4, transform: "translateY(-2px)" },
+        { opacity: 1, transform: "translateY(0px)" }
+    ], {
+        duration: 250,
+        easing: "cubic-bezier(.2,.9,.2,1)"
+    });
+
+    el.textContent = value;
+}
+
+navigator.geolocation.getCurrentPosition(pos=>{
+    getWeather(pos.coords.latitude, pos.coords.longitude);
+}, err=>{
+    console.warn("Location blocked:", err);
+    document.getElementById("wText").textContent =
+        "Enable location for weather";
+});
+
+function updateClock(){
+
+    const now = new Date();
+
+    const h = now.getHours();
+    const m = now.getMinutes();
+    const s = now.getSeconds();
+
+    document.getElementById("clockTime").textContent =
+        now.toLocaleTimeString([],{
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit"
+        });
+
+    document.getElementById("clockWeekday").textContent =
+        now.toLocaleDateString([],{
+            weekday:"long"
+        });
+
+    document.getElementById("clockDate").textContent =
+        now.toLocaleDateString([],{
+            day:"numeric",
+            month:"long",
+            year:"numeric"
+        });
+
+    const hourDeg =
+        (h % 12) * 30 + m * 0.5;
+
+    const minuteDeg =
+        m * 6 + s * 0.1;
+
+    const secondDeg =
+        s * 6;
+
+    document.getElementById("hourHand").style.transform =
+        `rotate(${hourDeg}deg)`;
+
+    document.getElementById("minuteHand").style.transform =
+        `rotate(${minuteDeg}deg)`;
+
+    document.getElementById("secondHand").style.transform =
+        `rotate(${secondDeg}deg)`;
+}
+
+updateClock();
+
+const now = new Date();
+
+
+setInterval(updateClock,1000);
+
+async function setWallpaper(){
+    try{
+        const CACHE_KEY = "wallpaper_cache";
+        const CACHE_TIME_KEY = "wallpaper_cache_time";
+        const MAX_AGE = 1000 * 60 * 20; // 20 minutes
+
+        const cached = localStorage.getItem(CACHE_KEY);
+        const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
+
+        const now = Date.now();
+
+        // Use cache if still fresh
+        if(cached && cachedTime && (now - cachedTime < MAX_AGE)){
+            document.getElementById("wallpaper").style.backgroundImage =
+                `url("${cached}")`;
+            return;
+        }
+
+        // Otherwise fetch new
+        const res = await fetch(
+            "https://bing.biturl.top/?resolution=UHD&format=json&index=0&mkt=zh-CN"
+        );
+
+        const data = await res.json();
+
+        const url = data.url;
+
+        // Apply immediately
+        document.getElementById("wallpaper").style.backgroundImage =
+            `url("${url}")`;
+
+        // Save to cache
+        localStorage.setItem(CACHE_KEY, url);
+        localStorage.setItem(CACHE_TIME_KEY, now.toString());
+
+    }catch(e){
+        console.error("Wallpaper failed:", e);
+
+        // fallback to cached even if expired
+        const cached = localStorage.getItem("wallpaper_cache");
+        if(cached){
+            document.getElementById("wallpaper").style.backgroundImage =
+                `url("${cached}")`;
+        }
+    }
+}
+
+setWallpaper();
+
+function weatherSVG(code){
+
+    if(code === 0){
+        return `
+        <svg viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="14" fill="#FDB813"/>
+        </svg>`;
+    }
+
+    if(code <= 3){
+        return `
+        <svg viewBox="0 0 64 64">
+            <circle cx="24" cy="24" r="12" fill="#FDB813"/>
+            <path d="M20 44h24a8 8 0 0 0 0-16 12 12 0 0 0-22-4 8 8 0 0 0-2 20z"
+                  fill="#E5E7EB"/>
+        </svg>`;
+    }
+
+    if(code >= 51){
+        return `
+        <svg viewBox="0 0 64 64">
+            <path d="M20 40h24a8 8 0 0 0 0-16 12 12 0 0 0-22-4 8 8 0 0 0-2 20z"
+                  fill="#E5E7EB"/>
+            <line x1="22" y1="48" x2="18" y2="56"
+                  stroke="#38BDF8" stroke-width="4" stroke-linecap="round"/>
+            <line x1="34" y1="48" x2="30" y2="56"
+                  stroke="#38BDF8" stroke-width="4" stroke-linecap="round"/>
+            <line x1="46" y1="48" x2="42" y2="56"
+                  stroke="#38BDF8" stroke-width="4" stroke-linecap="round"/>
+        </svg>`;
+    }
+
+    return `
+<svg viewBox="0 0 64 64">
+    <path d="M20 40h24a8 8 0 0 0 0-16 12 12 0 0 0-22-4 8 8 0 0 0-2 20z"
+          fill="#E5E7EB"/>
+</svg>`;
+}
+
+async function getWeather(lat, lon){
+    try{
+        const res = await fetch(
+`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&forecast_days=1`
+);
+
+        const data = await res.json();
+        
+        try{
+    const geo = await fetch(
+        `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}`
+    );
+
+    const place = await geo.json();
+
+    document.getElementById("wLocation").textContent =
+        place.address.city ||
+        place.address.town ||
+        place.address.village ||
+        "Local Weather";
+}catch{}
+        
+        document.getElementById("wHighLow").textContent =
+`${Math.round(Math.max(...data.hourly.temperature_2m))}° / ${Math.round(Math.min(...data.hourly.temperature_2m))}°`;
+
+        
+        const forecast = document.getElementById("forecast");
+forecast.innerHTML = "";
+
+const hour = new Date().getHours();
+
+for(let i=0;i<6;i++){
+
+    const idx = hour + i;
+
+    const temp = Math.round(
+        data.hourly.temperature_2m[idx]
+    );
+
+    const code =
+        data.hourly.weather_code[idx];
+
+    const label =
+        `${((idx)%24)||12}${idx < 12 ? "AM" : idx < 24 ? "PM" : ""}`;
+
+    forecast.innerHTML += `
+    <div class="forecastItem" style="animation-delay:${i * 0.08}s">
+        <div class="forecastItem">
+            <div class="forecastTime">${label}</div>
+            <div class="forecastIcon">
+                ${weatherSVG(code)}
+            </div>
+            <div class="forecastTemp">
+                ${temp}°
+            </div>
+        </div>
+    `;
+}
+
+        const temp = Math.round(data.current.temperature_2m);
+        const code = data.current.weather_code;
+
+        const desc = {
+            0:"Clear sky",
+            1:"Mostly clear",
+            2:"Partly cloudy",
+            3:"Overcast",
+            48:"Foggy",
+            51:"Drizzle",
+            61:"Rain",
+            71:"Snow",
+            80:"Showers",
+            95:"Thunderstorm"
+        }[code] || "Weather";
+
+        document.getElementById("wIcon").innerHTML = weatherSVG(code);
+        document.getElementById("wTemp").textContent = `${temp}°C`;
+        document.getElementById("wText").textContent = desc;
+
+    }catch(e){
+        document.getElementById("wText").textContent = "Weather unavailable";
+    }
+}
+
+const defaultShortcuts = [
+    {label:"Google",url:"https://google.com"},
+    {label:"YouTube",url:"https://youtube.com"},
+    {label:"GitHub",url:"https://github.com"},
+    {label:"ChatGPT",url:"https://chatgpt.com"}
+];
+
+let shortcuts =
+    JSON.parse(localStorage.getItem("shortcuts")) ||
+    defaultShortcuts;
+
+while(shortcuts.length < 4){
+    shortcuts.push(null);
+}
+
+shortcuts = shortcuts.slice(0,4);
+
+const shortcutsGrid =
+    document.getElementById("shortcutsGrid");
+
+function saveShortcuts(){
+    localStorage.setItem(
+        "shortcuts",
+        JSON.stringify(shortcuts)
+    );
+}
+
+function addShortcut(index){
+
+    const label = prompt("Name:");
+    if(!label) return;
+
+    const url = prompt("URL:");
+    if(!url) return;
+
+    shortcuts[index] = {label,url};
+
+    saveShortcuts();
+    renderShortcuts();
+}
+
+function editShortcut(index){
+
+    const item = shortcuts[index];
+    if(!item) return;
+
+    const label =
+        prompt("Name:", item.label);
+
+    if(label === null) return;
+
+    const url =
+        prompt("URL:", item.url);
+
+    if(url === null) return;
+
+    shortcuts[index] = {
+        label,
+        url
+    };
+
+    saveShortcuts();
+    renderShortcuts();
+}
+
+function deleteShortcut(index){
+
+    shortcuts[index] = null;
+
+    saveShortcuts();
+    renderShortcuts();
+}
+
+function renderShortcuts(){
+
+    shortcutsGrid.innerHTML = "";
+
+    shortcuts.forEach((shortcut,index)=>{
+
+        if(!shortcut){
+
+            shortcutsGrid.innerHTML += `
+                <button
+                    class="addShortcut"
+                    onclick="addShortcut(${index})">
+                    +
+                </button>
+            `;
+
+            return;
+        }
+
+        let domain = "";
+
+try{
+    domain = new URL(shortcut.url).hostname;
+}catch{}
+
+        shortcutsGrid.innerHTML += `
+            <div class="shortcutWrapper">
+
+                <a
+                    class="shortcut"
+                    href="${shortcut.url}"
+                    target="_blank">
+
+                    <img
+                        class="shortcutIcon"
+                        src="https://www.google.com/s2/favicons?sz=64&domain=${domain}">
+
+                    <div class="shortcutLabel">
+                        ${shortcut.label}
+                    </div>
+
+                </a>
+
+                <div class="shortcutControls">
+
+                    <button
+                        class="editShortcut"
+                        onclick="editShortcut(${index})">
+                        ✎
+                    </button>
+
+                    <button
+                        class="deleteShortcut"
+                        onclick="deleteShortcut(${index})">
+                        ×
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+    });
+}
+
+renderShortcuts();
+
+const cats = [
+    "₍^. .^₎⟆",
+    "≽^•⩊•^≼",
+    "(˵◝ ⩊  ◜˵マ",
+    "₍^. .^₎Ⳋ",
+    "⚞^. .^⚟",
+    "(•˕ •マ.ᐟ",
+    "/•᷅‎‎•᷄\\੭",
+    "ദ്ദി/ᐠ｡‸｡ᐟ\\",
+    "≽ ^⎚ ˕ ⎚^ ≼",
+    "⚞ •⩊ • ⚟"
+];
+
+function setRandomTitle(){
+    const cat = cats[Math.floor(Math.random() * cats.length)];
+    document.title = `${cat}`;
+}
+
+setRandomTitle();
+
+
+
+</script>
+
+</body>
+</html>
